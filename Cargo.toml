@@ -1,0 +1,21 @@
+[package]
+license = "MIT"
+edition = "2021"
+version = "0.1.0"
+readme = "README.md"
+name = "threads-api"
+categories = ["api-bindings"]
+repository = "https://github.com/m1guelpf/threads-api"
+description = "Reverse engineered API client for Instagram's Threads app."
+authors = ["Miguel Piedrafita <soy@miguelpiedrafita.com>"]
+keywords = ["instagram", "threads", "reverse-engineering", "instagram-api", "threads-api"]
+
+[dependencies]
+map-macro = "0.2.6"
+thiserror = "1.0.41"
+serde_json = "1.0.100"
+reqwest = { version = "0.11.18", features = ["multipart", "json"] }
+serde = { version = "1.0.166", features = ["derive"] }
+
+[dev-dependencies]
+tokio = { version = "1.29.1", features = ["macros", "rt-multi-thread"] }
