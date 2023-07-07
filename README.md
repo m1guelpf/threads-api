@@ -23,7 +23,8 @@ let posts = client.replies(user_id).await?;
 - [x] Get user profile
 - [x] Get user posts
 - [x] Get user replies
-- [ ] Get post replies
+- [x] Get post replies
+- [x] Get post likes
 - [ ] Authentication
 - [ ] Post a thread
 - [ ] Post a reply
