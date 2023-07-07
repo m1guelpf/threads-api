@@ -15,12 +15,14 @@ let client = Threads::new();
 
 let user = client.profile(user_id).await?;
 let posts = client.posts(user_id).await?;
+let posts = client.replies(user_id).await?;
 ```
 
 ## 📌 Roadmap
 
 - [x] Get user profile
 - [x] Get user posts
+- [x] Get user replies
 - [ ] Get post replies
 - [ ] Authentication
 - [ ] Post a thread

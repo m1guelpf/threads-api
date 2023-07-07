@@ -69,6 +69,29 @@ impl Threads {
             .collect())
     }
 
+    /// Get a list of a user's replies.
+    ///
+    /// # Arguments
+    ///
+    /// * `user_id` - The user's ID.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the API request fails.
+    pub async fn replies(&self, user_id: &str) -> Result<Vec<Thread>, Error> {
+        let response = self
+            .get::<Response<ThreadsResponse>>("6307072669391286", json!({ "userID": user_id }))
+            .await?;
+
+        Ok(response
+            .data
+            .media_data
+            .threads
+            .into_iter()
+            .map(Into::into)
+            .collect())
+    }
+
     async fn get<T: DeserializeOwned>(&self, doc_id: &str, variables: Value) -> Result<T, Error> {
         let response = self
             .client
@@ -128,5 +151,16 @@ mod tests {
             first_thread.items[0].text,
             "Let's do this. Welcome to Threads. 🔥"
         );
+    }
+
+    #[tokio::test(flavor = "multi_thread")]
+    async fn can_get_zuck_replies() {
+        let threads = Threads::default();
+        let posts = threads.replies("314216").await.unwrap();
+
+        let first_reply = posts.last().unwrap();
+
+        assert_eq!(first_reply.id, "3140548715685371027");
+        assert_eq!(first_reply.items[1].text, "😂😂");
     }
 }
