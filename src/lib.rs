@@ -174,11 +174,12 @@ pub enum Error {
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use constant::TEST_USER_ID;
 
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_zuck_profile() {
 		let threads = Threads::default();
-		let profile = threads.profile("314216").await.unwrap();
+		let profile = threads.profile(TEST_USER_ID).await.unwrap();
 
 		assert_eq!(profile.username, "zuck");
 		assert_eq!(profile.full_name, "Mark Zuckerberg");
@@ -187,7 +188,7 @@ mod tests {
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_zuck_posts() {
 		let threads = Threads::default();
-		let posts = threads.posts("314216").await.unwrap();
+		let posts = threads.posts(TEST_USER_ID).await.unwrap();
 
 		let first_thread = posts.last().unwrap();
 
@@ -201,7 +202,7 @@ mod tests {
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_zuck_replies() {
 		let threads = Threads::default();
-		let posts = threads.replies("314216").await.unwrap();
+		let posts = threads.replies(TEST_USER_ID).await.unwrap();
 
 		let first_reply = posts.last().unwrap();
 
