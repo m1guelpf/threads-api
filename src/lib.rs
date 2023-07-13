@@ -174,7 +174,7 @@ pub enum Error {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use constant::TEST_USER_ID;
+	use constant::{TEST_THREAD_ID, TEST_USER_ID};
 
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_zuck_profile() {
@@ -192,7 +192,7 @@ mod tests {
 
 		let first_thread = posts.last().unwrap();
 
-		assert_eq!(first_thread.id, "3138977881796614961");
+		assert_eq!(first_thread.id, TEST_THREAD_ID);
 		assert_eq!(
 			first_thread.items[0].text,
 			"Let's do this. Welcome to Threads. 🔥"
@@ -215,9 +215,9 @@ mod tests {
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_post_data() {
 		let threads = Threads::default();
-		let thread = threads.post("3138977881796614961").await.unwrap();
+		let thread = threads.post(TEST_THREAD_ID).await.unwrap();
 
-		assert_eq!(thread.post.id, "3138977881796614961");
+		assert_eq!(thread.post.id, TEST_THREAD_ID);
 		assert_eq!(
 			thread.post.items[0].text,
 			"Let's do this. Welcome to Threads. 🔥"
@@ -227,7 +227,7 @@ mod tests {
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_post_likes() {
 		let threads = Threads::default();
-		let likers = threads.likes("3138977881796614961").await.unwrap();
+		let likers = threads.likes(TEST_THREAD_ID).await.unwrap();
 
 		assert!(!likers.is_empty());
 	}
