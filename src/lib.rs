@@ -9,6 +9,7 @@ use types::{
 	PostResponse, Profile, ProfileDetail, Thread,
 };
 
+pub mod constant;
 pub mod types;
 
 /// Reverse engineered API client for Instagram's Threads app.
