@@ -9,6 +9,7 @@ use types::{
 	PostResponse, Profile, ProfileDetail, Thread,
 };
 
+pub mod constant;
 pub mod types;
 
 /// Reverse engineered API client for Instagram's Threads app.
@@ -173,11 +174,12 @@ pub enum Error {
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use constant::{TEST_THREAD_ID, TEST_USER_ID};
 
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_zuck_profile() {
 		let threads = Threads::default();
-		let profile = threads.profile("314216").await.unwrap();
+		let profile = threads.profile(TEST_USER_ID).await.unwrap();
 
 		assert_eq!(profile.username, "zuck");
 		assert_eq!(profile.full_name, "Mark Zuckerberg");
@@ -186,11 +188,11 @@ mod tests {
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_zuck_posts() {
 		let threads = Threads::default();
-		let posts = threads.posts("314216").await.unwrap();
+		let posts = threads.posts(TEST_USER_ID).await.unwrap();
 
 		let first_thread = posts.last().unwrap();
 
-		assert_eq!(first_thread.id, "3138977881796614961");
+		assert_eq!(first_thread.id, TEST_THREAD_ID);
 		assert_eq!(
 			first_thread.items[0].text,
 			"Let's do this. Welcome to Threads. 🔥"
@@ -200,7 +202,7 @@ mod tests {
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_zuck_replies() {
 		let threads = Threads::default();
-		let posts = threads.replies("314216").await.unwrap();
+		let posts = threads.replies(TEST_USER_ID).await.unwrap();
 
 		let first_reply = posts.last().unwrap();
 
@@ -213,9 +215,9 @@ mod tests {
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_post_data() {
 		let threads = Threads::default();
-		let thread = threads.post("3138977881796614961").await.unwrap();
+		let thread = threads.post(TEST_THREAD_ID).await.unwrap();
 
-		assert_eq!(thread.post.id, "3138977881796614961");
+		assert_eq!(thread.post.id, TEST_THREAD_ID);
 		assert_eq!(
 			thread.post.items[0].text,
 			"Let's do this. Welcome to Threads. 🔥"
@@ -225,7 +227,7 @@ mod tests {
 	#[tokio::test(flavor = "multi_thread")]
 	async fn can_get_post_likes() {
 		let threads = Threads::default();
-		let likers = threads.likes("3138977881796614961").await.unwrap();
+		let likers = threads.likes(TEST_THREAD_ID).await.unwrap();
 
 		assert!(!likers.is_empty());
 	}
